@@ -1,0 +1,31 @@
+#!/bin/sh
+uname | grep -qi windows && chcp 65001 > /dev/null
+export BB_OVERRIDE_APPLETS=make
+export WSROOT="$(dirname $(realpath "$0"))"
+export HOME="${WSROOT}/home"
+export TMPDIR="${WSROOT}/tmp"
+export WSCFG="${WSROOT}/cfg"
+export PATH="${WSROOT}/bin:${WSROOT}/bin/python3:${WSROOT}/bin/python3/Scripts:${WSROOT}/bin/tcc:${PATH}"
+export HISTFILE="${WSCFG}/.ash_history"
+
+# export PYTHONDONTWRITEBYTECODE=y
+mkdir -p "${TMPDIR}/pycache" && export PYTHONPYCACHEPREFIX="${TMPDIR}/pycache"
+mkdir -p "${WSCFG}" && echo PYTHONPYCACHEPREFIX="${TMPDIR}/pycache" > "${WSCFG}/pyenv"
+
+echo    'RGBDS Workspace for Windows'
+echo
+
+echo "${WSROOT}" | grep -qi " " && {
+    echo_cn '警告：路径包含空格。请使用其他路径。'
+    echo_en 'Warning: The path contains spaces. Please use another path.'
+}
+
+wslang auto
+
+echo_cn '输入 "wshelp" 获取更多信息。'
+echo_en 'Type "wshelp" for more information.'
+
+echo
+
+cd ~
+exec sh

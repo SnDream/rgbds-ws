@@ -1,0 +1,39 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"python.defaultInterpreterPath": "${workspaceFolder}/bin/python3",
+		"python.envFile": "${workspaceFolder}/cfg/pyenv",
+		"files.exclude": {
+			"bin": true,
+			"tmp": true,
+			"cfg": true,
+			"env_setup": true,
+			"*.bat": true,
+			"README.md": true,
+			"*.code-workspace": true
+		},
+		"explorer.autoRevealExclude": {
+			"bin": true,
+			"tmp": true,
+			"cfg": true,
+			"env_setup": true,
+			"*.bat": true,
+			"README.md": true,
+			"*.code-workspace": true
+		},
+		"terminal.integrated.profiles.windows": {
+			"RGBDS WS" : {
+				"path": "${workspaceFolder}/bin/sh.exe",
+				"args": [
+					"-c",
+					"./env_setup"
+				]
+			}
+		},
+		"terminal.integrated.defaultProfile.windows": "RGBDS WS"
+	}
+}

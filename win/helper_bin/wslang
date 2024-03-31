@@ -1,0 +1,41 @@
+#!/bin/sh
+
+wslang(){
+    echo "Please select language / 请选择语言:"
+    echo "    1. Chinese / 中文"
+    echo "    2. English / 英文"
+    local getch=""
+    until [ "${getch}" = "1" ] || [ "${getch}" = "2" ]
+    do printf "\r" ; read -p "input> " -n 1 getch
+    done
+    echo
+
+    case "${getch}" in
+    "1")
+        rm -f "${WSCFG}/.enlang"
+        touch "${WSCFG}/.cnlang"
+        ;;
+    "2")
+        rm -f "${WSCFG}/.cnlang"
+        touch "${WSCFG}/.enlang"
+        ;;
+    *)
+        rm -f "${WSCFG}/.enlang"
+        touch "${WSCFG}/.cnlang"
+    esac
+
+    echo '执行 "wslang" 重设语言。'
+    echo 'Type "wslang" for language reset.'
+    echo
+}
+
+[ -n "${WSCFG}" ] || {
+    echo '错误: 缺少WSCFG配置的路径。不是正常启动的终端？'
+    echo 'Error: Missing path for WSCFG configuration. Not a normal startup terminal?'
+    exit 1
+}
+
+[ "$1" = "auto" ] && [ -e "${WSCFG}/.cnlang" ] && exit 0
+[ "$1" = "auto" ] && [ -e "${WSCFG}/.enlang" ] && exit 0
+
+wslang

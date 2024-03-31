@@ -1,0 +1,43 @@
+#!/bin/sh
+
+echo_en 'RGBDS WorkSpace for Windows'
+echo_cn 'RGBDS WorkSpace for Windows'
+
+echo_cn '为 Windows 10 1909 以上版本提供的rgbds集成编译环境。'
+echo_en 'The rgbds integrated workspace for Windows 10 1909 and above.'
+echo_cn '具体程序的帮助，一般执行 "程序名 --help"'
+echo_en 'Program-specific help, generally executed as "program name --help".'
+
+echo
+
+prg_help(){
+    which "$1" >/dev/null || return
+    printf "%-10s: " "$1"
+    echo_cn "$2"
+    echo_en "$3"
+}
+
+bbx_help(){
+    printf "%-10s: " "$1"
+    echo_cn "$2"
+    echo_en "$3"
+}
+
+prg_help 'rgbasm'     'GB 汇编编译器'           'GB ASM Compiler'
+prg_help 'rgblink'    'GB 汇编连接器'           'GB ASM Linker'
+prg_help 'rgbfix'     'GB ROM 文件修正'         'GB ROM Fixer'
+prg_help 'rgbgfx'     'GB 图像转换工具'         'GB Image Converter'
+prg_help 'busybox'    '(列出)精简 Unix 工具集'  '(List) basic Unix tools'
+prg_help 'sh'         '基本交互 shell'          'ash shell'
+bbx_help 'cd'         '切换工作目录 / cd .. 切换上一级 / cd ~ 切换到home目录' 'Change working directory'
+prg_help 'md5sum'     'md5 校验值'              'md5 checksum'
+prg_help 'crc32'      'crc32 校验值'            'crc32 checksum'
+prg_help 'unzip'      '解压 Zip 文件'           'Decompress zip files'
+prg_help 'python'     'Python3 语言环境'        'Python3 language environments'
+prg_help 'pip'        'Python 额外包安装'       'Python pip package install'
+prg_help 'tcc'        '精简 C 语言环境'         'Basic C language environments'
+prg_help 'make'       'GNU make 自动编译'       'Gnu make'
+prg_help 'wshelp'     '显示本帮助'              'Print this help'
+prg_help 'wslang'     '设置语言 / Set language' 'Set language / 设置语言'
+
+echo
