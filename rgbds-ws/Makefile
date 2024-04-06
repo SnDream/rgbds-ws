@@ -19,7 +19,7 @@ BASEROM := baserom.gbc
 
 SRC := patch
 LIB := ram orisymbols
-INC := hardware constants macros w_charmap
+INC := hardware constants macros charmap_w
 GFX := 
 
 SRC_ASM := $(addsuffix .asm,$(SRC))

@@ -5,8 +5,11 @@
 # 各个主程序文件链接的配置
 # 如果不需要某个组件，将下载地址参数改为空。
 
+## 根路径
+ROOT_DIR="$(realpath $(dirname "$0"))"
+
 ## 本地文件缓存目录，优先从这里获取
-SRC_CACHE_DIR=cache_dir
+SRC_CACHE_DIR="${ROOT_DIR}/cache_dir"
 
 ## rgbds，二进制文件压缩包，如有需要可以换成其他rgbds版本
 ADDR_RGBDS='https://github.com/gbdev/rgbds/releases/download/v0.7.0/rgbds-0.7.0-win64.zip'
@@ -32,8 +35,8 @@ ADDR_TCC='http://nongnu.askapache.com/tinycc/tcc-0.9.27-win64-bin.zip'
 # ADDR_MAKE_TCC='https://download.savannah.gnu.org/releases/tinycc/tcc-busybox-for-win32.zip'
 ADDR_MAKE_TCC='http://nongnu.askapache.com/tinycc/tcc-busybox-for-win32.zip'
 
-TDIR='temp_dir'
-BDIR='build_dir'
+TDIR="${ROOT_DIR}/temp_dir"
+BDIR="${ROOT_DIR}/build_dir"
 
 hint() {
 	echo "===> $@"
@@ -128,7 +131,7 @@ then
 	fi
 
 	mkdir -p "${PYDIR}/Scripts"
-	print '#/bin/sh\nexec python "$@"\n' > "${PYDIR}/Scripts/python3"
+	printf '#!/bin/sh\nexec python "$@"\n' > "${PYDIR}/Scripts/python3"
 else
 	hint "Python is not included."
 fi
