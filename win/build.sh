@@ -32,9 +32,6 @@ ADDR_TCC='http://nongnu.askapache.com/tinycc/tcc-0.9.27-win64-bin.zip'
 # ADDR_MAKE_TCC='https://download.savannah.gnu.org/releases/tinycc/tcc-busybox-for-win32.zip'
 ADDR_MAKE_TCC='http://nongnu.askapache.com/tinycc/tcc-busybox-for-win32.zip'
 
-export http_proxy=127.0.0.1:7890
-export https_proxy=127.0.0.1:7890
-
 TDIR='temp_dir'
 BDIR='build_dir'
 

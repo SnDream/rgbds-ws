@@ -21,9 +21,9 @@ text_asm = [
 ]
 
 charmap_asm = [
-	"include \"include/w_charmap.inc\"\n",
+	"include \"include/charmap_w.inc\"\n",
 	"\n",
-	"\tw_init 2\n",
+	"\tnewcharmap_w 2\n",
 	"\n",
 ]
 
