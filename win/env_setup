@@ -1,5 +1,5 @@
 #!/bin/sh
-uname | grep -qi windows && chcp 65001 > /dev/null
+# uname | grep -qi windows && chcp 65001 > /dev/null
 export PS1='\[\e]0;\u@\h: \w\a\]\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 export BB_OVERRIDE_APPLETS=make
 [ -n "${WSROOT}" ] || export WSROOT="$(dirname $(realpath "$0"))"
@@ -21,7 +21,7 @@ echo "${WSROOT}" | grep -qi " " && {
     echo_en 'Warning: The path contains spaces. Please use another path.'
 }
 
-wslang auto
+# wslang auto
 
 echo_cn '输入 "wshelp" 获取更多信息。'
 echo_en 'Type "wshelp" for more information.'
@@ -29,4 +29,5 @@ echo_en 'Type "wshelp" for more information.'
 echo
 
 cd ~
+export ENV="$(realpath ~/env-setup-win32)"
 exec sh

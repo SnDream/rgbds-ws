@@ -12,15 +12,15 @@ ROOT_DIR="$(realpath $(dirname "$0"))"
 SRC_CACHE_DIR="${ROOT_DIR}/cache_dir"
 
 ## rgbds，二进制文件压缩包，如有需要可以换成其他rgbds版本
-ADDR_RGBDS='https://github.com/gbdev/rgbds/releases/download/v0.7.0/rgbds-0.7.0-win64.zip'
+ADDR_RGBDS='https://github.com/gbdev/rgbds/releases/download/v0.7.0/rgbds-0.7.0-win32.zip'
 
 ## busybox-w32，二进制文件，编写当时版本为FRP-5301-gda71f7c57，下面默认获取最新版本。
-ADDR_BUSYBOX='https://frippery.org/files/busybox/busybox64u.exe'
+ADDR_BUSYBOX='https://frippery.org/files/busybox/busybox.exe'
 ## 如果最新版本不再兼容，可以尝试换成脚本编写当时的版本，将上面的行修改为下面的行
 ## ADDR_BUSYBOX='https://frippery.org/files/busybox/busybox-w64u-FRP-5301-gda71f7c57.exe'
 
 ## python 3.12.2，嵌入式包
-ADDR_PYTHON='https://www.python.org/ftp/python/3.12.2/python-3.12.2-embed-amd64.zip'
+ADDR_PYTHON=
 
 ## get-pip，python脚本，用于安装pip
 ADDR_GETPIP='https://bootstrap.pypa.io/get-pip.py'
@@ -29,11 +29,17 @@ PIP_PACKAGES="pyreadline3 openpyxl"
 
 ## tcc，二进制文件压缩包
 # ADDR_TCC='https://download.savannah.gnu.org/releases/tinycc/tcc-0.9.27-win64-bin.zip'
-ADDR_TCC='http://nongnu.askapache.com/tinycc/tcc-0.9.27-win64-bin.zip'
+ADDR_TCC='http://nongnu.askapache.com/tinycc/tcc-0.9.27-win32-bin.zip'
 
 ## GNU make，源代码
 # ADDR_MAKE_TCC='https://download.savannah.gnu.org/releases/tinycc/tcc-busybox-for-win32.zip'
 ADDR_MAKE_TCC='http://nongnu.askapache.com/tinycc/tcc-busybox-for-win32.zip'
+
+## pokecrystal
+ADDR_POKECRYSTAL='https://github.com/pret/pokecrystal/archive/refs/heads/master.zip'
+
+## ya_getopt
+ADDR_YAGETOPT='https://github.com/kubo/ya_getopt/archive/refs/heads/master.zip'
 
 TDIR="${ROOT_DIR}/temp_dir"
 BDIR="${ROOT_DIR}/build_dir"
@@ -159,7 +165,7 @@ then
 		cache_get "${ADDR_MAKE_TCC}" "${TDIR}/make-tcc.zip" &&
 		unzip -o "${TDIR}/make-tcc.zip" 'tcc-busybox-for-win32/gmake/*' -d "${TDIR}/make-tcc" &&
 		mv "${TDIR}/make-tcc/tcc-busybox-for-win32/gmake" "${TDIR}/make-tcc/" &&
-		( cd "${TDIR}/make-tcc/gmake" && T="-m64" tcc @0.tcc/gmake.tcc.rsp -w ) &&
+		( cd "${TDIR}/make-tcc/gmake" && T="-m32" tcc @0.tcc/gmake.tcc.rsp -w ) &&
 		cp "${TDIR}/make-tcc/make.exe" "${BDIR}/bin"
 	else
 		hint "gnu make is not included."
@@ -169,7 +175,41 @@ else
 	hint "tcc (and gnu make) is not included."
 fi
 
+hint "Get pokecrystal_build."
+
+export PCBDIR="${BDIR}/home"
+
+empty_dir "${PCBDIR}" &&
+cp -r ../pokecrystal_build/* "${PCBDIR}"
+
+if [ -n "${ADDR_POKECRYSTAL}" ]
+then
+	hint "Get pokecrystal."
+	cache_get "${ADDR_POKECRYSTAL}" "${TDIR}/pokecrystal.zip" &&
+	unzip -o "${TDIR}/pokecrystal.zip" -d "${PCBDIR}" &&
+	mv "${PCBDIR}/"pokecrystal-* "${PCBDIR}/pokecrystal" || {
+		hint "Get pokecrystal failed."
+		clean_up 1
+	}
+else
+	hint "pokecrystal is not included. (why?)"
+fi
+
+if [ -n "${ADDR_YAGETOPT}" ]
+then
+	hint "Get ya_getopt."
+	empty_dir "${PCBDIR}/ya_getopt" &&
+	cache_get "${ADDR_YAGETOPT}" "${TDIR}/ya_getopt.zip" &&
+	unzip -o "${TDIR}/ya_getopt.zip" -d "${PCBDIR}" &&
+	mv "${PCBDIR}/"ya_getopt-*/ya_getopt.* "${PCBDIR}/ya_getopt" &&
+	rm -rf "${PCBDIR}/"ya_getopt-* || {
+		hint "Get ya_getopt failed."
+		clean_up 1
+	}
+else
+	hint "ya_getopt is not inclued. (why?)"
+fi
+
 cp helper_bin/* "${BDIR}/bin/"
-cp README.md run.bat env_setup "${BDIR}"
+cp ../README.md run.bat env_setup "${BDIR}"
 cp code-workspace "${BDIR}/rgbds-ws.code-workspace"
-cp -r ../rgbds-ws "${BDIR}/home/example"

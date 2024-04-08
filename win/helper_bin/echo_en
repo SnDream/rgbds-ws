@@ -1,2 +1,3 @@
 #!/bin/sh
-[ -e "${WSCFG}/.enlang" ] && exec echo "$@"
+# [ -e "${WSCFG}/.enlang" ] && exec echo "$@"
+exec echo "$@"

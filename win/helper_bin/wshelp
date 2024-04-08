@@ -3,8 +3,8 @@
 echo_en 'RGBDS WorkSpace for Windows'
 echo_cn 'RGBDS WorkSpace for Windows'
 
-echo_cn '为 Windows 10 1909 以上版本提供的rgbds集成编译环境。'
-echo_en 'The rgbds integrated workspace for Windows 10 1909 and above.'
+echo_cn '为 Windows x86 提供的rgbds集成编译环境。'
+echo_en 'The rgbds integrated workspace for Windows x86.'
 echo_cn '具体程序的帮助，一般执行 "程序名 --help"'
 echo_en 'Program-specific help, generally executed as "program name --help".'
 

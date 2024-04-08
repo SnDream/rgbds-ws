@@ -1,0 +1,65 @@
+#!/bin/bash
+
+if [ ${0##*/} != 'env-setup-win32' ]
+then
+    export BUILD_ROOT=$(realpath .)
+
+    if which rgbasm >/dev/null
+    then
+        rgbasm -V
+    else
+        echo 'no rgbasm. wrong Environment?'
+    fi
+
+    export RM='rm -f'
+    if which robocopy >/dev/null
+    then
+        pmc_init() {
+            cd "${BUILD_ROOT}" &&
+            mkdir -p build &&
+            { robocopy pokecrystal build /e /xd .git ; [ $? -lt 8 ] ; } &&
+            cp -af ya_getopt/ya_getopt.* build/tools/ &&
+            (cd build && patch -p1 < ../tcc_winport.diff)
+        }
+        pmc_finit() {
+            cd "${BUILD_ROOT}" &&
+            mkdir -p build &&
+            { robocopy pokecrystal build /e /mir /xd .git ; [ $? -lt 8 ] ; } &&
+            cp -af ya_getopt/ya_getopt.* build/tools/ &&
+            (cd build && patch -p1 < ../tcc_winport.diff)
+        }
+    else
+        echo 'install robocopy for fast copy speed'
+        pmc_init() {
+            cd "${BUILD_ROOT}" &&
+            mkdir -p build &&
+            cp -af pokecrystal/* build/ &&
+            cp -af ya_getopt/ya_getopt.* build/tools/ &&
+            (cd build && patch -p1 < ../tcc_winport.diff)
+        }
+        pmc_finit() {
+            cd "${BUILD_ROOT}" &&
+            mkdir -p build &&
+            rm -rf build/* &&
+            cp -af pokecrystal/* build/ &&
+            cp -af ya_getopt/ya_getopt.* build/tools/ &&
+            (cd build && patch -p1 < ../tcc_winport.diff)
+        }
+    fi
+    pmc_build() {
+        cd "${BUILD_ROOT}" &&
+        make -C build crystal11 &&
+        make -C build crystal11_debug
+    }
+
+    echo "************************"
+    echo "  Env setuped! Usage:"
+    echo "    Init build (fast, partial)   : pmc_init"
+    echo "    Full init build (slow, full) : pmc_finit"
+    echo "    Build ROM                    : pmc_build"
+    echo "************************"
+else
+    echo "************************"
+    echo "  Use \"source env-setup\" instead of running this script!"
+    echo "************************"
+fi

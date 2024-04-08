@@ -5,8 +5,8 @@
 		}
 	],
 	"settings": {
-		"python.defaultInterpreterPath": "${workspaceFolder}/bin/python3",
-		"python.envFile": "${workspaceFolder}/cfg/pyenv",
+		// "python.defaultInterpreterPath": "${workspaceFolder}/bin/python3",
+		// "python.envFile": "${workspaceFolder}/cfg/pyenv",
 		"files.exclude": {
 			"bin": true,
 			"tmp": true,
